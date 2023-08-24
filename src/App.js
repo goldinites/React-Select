@@ -1,31 +1,43 @@
 import React, {useState} from 'react';
-
 import './styles/styles.scss';
-
-import selectData from "./selectData";
-import RSelect from "./components/ui/RSelect";
+import RSelect from './RSelect';
 
 const App = () => {
-    const data = selectData.data;
+    const BASE_URL = 'https://countriesnow.space/api/v0.1/countries'
 
-    const [currentSort, setCurrentSort] = useState(data)
+    let getCountries = async () => {
+        const response = await fetch(`${BASE_URL}`).then(response => response.json())
+        const {data} = response;
 
-    const setSortHandler = (sort) => {
-        setCurrentSort(sort)
+        return data;
+    }
+
+    const [countries, setCountries] = useState([]);
+
+    getCountries()
+        .then(response => {
+            setCountries(response)
+        });
+
+    const [currentOption, setOptionSort] = useState({})
+
+    const setOptionHandler = (sort) => {
+        setOptionSort(sort)
     }
 
     return (
         <div className="app">
             <div className="container">
                 <RSelect
-                    searchable={true}
+                    selectLabel="Choice country"
+                    searchable={false}
                     multiply={false}
-                    hideSelected={false}
-                    initialValue={currentSort}
-                    options={data}
+                    hideSelected={true}
+                    initialValue={currentOption}
+                    options={countries}
                     labelValue="country"
                     optionValue="iso2"
-                    setOption={(sort) => setSortHandler(sort)}
+                    setOption={(sort) => setOptionHandler(sort)}
                 />
             </div>
         </div>
