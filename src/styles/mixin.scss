@@ -1,0 +1,10 @@
+@mixin font ($font_size, $line_height) {
+  font-size: $font_size;
+  line-height: $line_height;
+}
+
+@mixin glassMorphismCard () {
+  background-color: $gray;
+  box-shadow: $shadow;
+  border-radius: 12px;
+}

@@ -1,80 +1,35 @@
-import React from "react";
-import './App.css'
-import Restart from "./components/Restart";
+import React, {useState} from 'react';
 
-import {library} from "@fortawesome/fontawesome-svg-core";
-import {faArrowsRotate, faUser, faComputer, faO, faX} from "@fortawesome/free-solid-svg-icons";
-import SetMode from "./components/SetMode";
-import Board from "./components/Board";
-import NextPlayer from "./components/NextPlayer";
+import './styles/styles.scss';
 
-library.add(faArrowsRotate)
-library.add(faUser)
-library.add(faComputer)
-library.add(faO)
-library.add(faX)
+import selectData from "./selectData";
+import RSelect from "./components/ui/RSelect";
 
-class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            lines : [
-                [0, 1, 2],
-                [3, 4, 5],
-                [6, 7, 8],
-                [0, 3, 6],
-                [1, 4, 7],
-                [2, 5, 8],
-                [0, 4, 8],
-                [2, 4, 6],
-            ],
-            players: {
-                x: {
-                    data: 'x',
-                    score: 0
-                },
-                o: {
-                    data: 'o',
-                    score: 0
-                }
-            },
-            isXPlayer: true,
-            canClick: false,
-            mode: '',
-            lastWinner: '',
-        }
+const App = () => {
+    const data = selectData.data;
 
-        this.restartGameHandler = this.restartGameHandler.bind(this);
-        this.setModeHandler = this.setModeHandler.bind(this);
+    const [currentSort, setCurrentSort] = useState(data)
+
+    const setSortHandler = (sort) => {
+        setCurrentSort(sort)
     }
 
-    restartGameHandler() {
-        this.setState({mode: ''})
-    }
-
-    setModeHandler(event) {
-        this.setState({mode: event})
-    }
-
-    render() {
-        const currentMode = this.state.mode;
-
-        return (
-            <div className="game">
-                <div className="game-title">
-                    <div className="title">Tic Tac Toe</div>
-                    <Restart mode={currentMode} restartGame={this.restartGameHandler}/>
-                </div>
-                <NextPlayer
-                    mode={currentMode}
-                    players={this.state.players}
-                    isXPlayer={this.state.isXPlayer}
+    return (
+        <div className="app">
+            <div className="container">
+                <RSelect
+                    searchable={true}
+                    multiply={false}
+                    hideSelected={false}
+                    initialValue={currentSort}
+                    options={data}
+                    labelValue="country"
+                    optionValue="iso2"
+                    setOption={(sort) => setSortHandler(sort)}
                 />
-                <Board mode={currentMode} />
-                <SetMode mode={currentMode} setMode={this.setModeHandler}/>
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
 
 export default App;

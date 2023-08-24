@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 200;
+  @include font(16px, 24px);
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  //background-color: $gray;
+}
+
+.container {
+  max-width: $container;
+  padding-left: $container_offset;
+  padding-right: $container_offset;
+  margin: 0 auto;
+}
+
+.app {
+  margin: 50px 0;
+}
+
+.todo__list {
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.todo__item {
+  @include glassMorphismCard;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px;
+  &-content {
+    flex: 1;
+  }
+}
