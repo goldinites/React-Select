@@ -1,7 +1,7 @@
 import React, {useMemo, useRef, useState} from 'react';
 import useClickOutside from "./hooks/useClickOutside";
 
-const RSelect = (props) => {
+const ReactSelect = (props) => {
     const {
         multiply,
         searchable,
@@ -35,16 +35,6 @@ const RSelect = (props) => {
 
     const selectNode = useRef()
 
-    useClickOutside(selectNode, () => {
-        toggleOpen(false);
-    })
-
-    const toggleSelect = () => {
-        if (searchedOptions.length && !searchQuery.length) {
-            toggleOpen(!isOpen)
-        }
-    }
-
     const searchedOptions = useMemo(() => {
         const baseSearch = (option) => {
             return option[labelValue]?.toLowerCase()?.includes(searchQuery?.toLowerCase())
@@ -64,8 +54,20 @@ const RSelect = (props) => {
             });
         }
 
+        console.log(options?.filter(option => baseSearch(option)))
+
         return options?.filter(option => baseSearch(option));
     }, [currentValue, hideSelected, labelValue, optionValue, options, searchQuery])
+
+    useClickOutside(selectNode, () => {
+        toggleOpen(false);
+    })
+
+    const toggleSelect = () => {
+        if (!searchQuery.length) {
+            toggleOpen(!isOpen)
+        }
+    }
 
     const changeOption = (option) => {
         if (multiply) {
@@ -94,19 +96,24 @@ const RSelect = (props) => {
         setSearchQuery(query)
     }
 
-    const deleteValue = (e, deletingValue) => {
+    const deleteValue = (e, deletingValue, clearAll) => {
         e.stopPropagation();
         if (multiply) {
-            setCurrentValue(currentValue?.filter((value) => {
-                return value[optionValue] !== deletingValue
-            }))
+            if (clearAll) {
+                setCurrentValue([])
+                toggleOpen(false)
+            } else {
+                setCurrentValue(currentValue?.filter((value) => {
+                    return value[optionValue] !== deletingValue
+                }))
+            }
         } else {
             setCurrentValue({})
         }
     }
 
     const renderSelectSearch = () => {
-        if (searchable && searchedOptions.length) {
+        if (searchable && options.length) {
             return (
                 <div className="select__title-search">
                     <input
@@ -129,7 +136,7 @@ const RSelect = (props) => {
     }
 
     const renderOptionsList = () => {
-        if (isOpen && searchedOptions.length) {
+        if (isOpen) {
             return (
                 <ul className="select__list">{
                     searchedOptions.map((option, index) => {
@@ -170,7 +177,9 @@ const RSelect = (props) => {
                             className="select__title-item-delete"
                             onClick={(e) => deleteValue(e, value[optionValue])}
                         >
-                            &times;
+                            <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
+                                <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
+                            </svg>
                         </span>
                     </span>
                 )
@@ -181,7 +190,24 @@ const RSelect = (props) => {
             if (searchedOptions.length && showDropdownArrow) {
                 return (
                     <div className="select__title-arrow">
-                        &#9660;
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
+                            <path d="M480-345 240-585l43-43 197 198 197-197 43 43-240 239Z"/>
+                        </svg>
+                    </div>
+                )
+            }
+        }
+
+        const renderClearAllButton = () => {
+            if (multiply && currentValue.length > 1) {
+                return (
+                    <div
+                        className="select__clear-all"
+                        onClick={(e) => deleteValue(e, null, true)}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
+                            <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
+                        </svg>
                     </div>
                 )
             }
@@ -194,7 +220,10 @@ const RSelect = (props) => {
 
                     {renderSelectSearch()}
                 </div>
-                {renderDropdownArrow()}
+                <div className="select__actions">
+                    {renderClearAllButton()}
+                    {renderDropdownArrow()}
+                </div>
             </div>
         )
     }
@@ -217,4 +246,4 @@ const RSelect = (props) => {
     );
 };
 
-export default RSelect;
+export default ReactSelect;

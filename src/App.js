@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import './styles/styles.scss';
-import RSelect from './RSelect';
+import ReactSelect from './ReactSelect';
 import countries from './api';
 
 const App = () => {
-    const [currentOption, setOptionSort] = useState({})
+    const initialValue = countries.find(country => country.name === 'Greece');
+
+    const [currentOption, setOptionSort] = useState(initialValue)
 
     const setOptionHandler = (option) => {
         setOptionSort(option)
@@ -13,10 +15,10 @@ const App = () => {
     return (
         <div className="app">
             <div className="container">
-                <RSelect
+                <ReactSelect
                     selectLabel="Choice country"
                     searchable={true}
-                    multiply={false}
+                    multiply={true}
                     hideSelected={true}
                     initialValue={currentOption}
                     showDropdownArrow={true}
