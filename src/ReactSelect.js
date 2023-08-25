@@ -42,7 +42,7 @@ const ReactSelect = (props) => {
 
         const checkSelectedOptions = (option) => {
             if (Array.isArray(currentValue)) {
-                return currentValue?.every(value => value[optionValue] !== option[optionValue])
+                return currentValue.every(value => value[optionValue] !== option[optionValue])
             } else {
                 return currentValue[optionValue] !== option[optionValue];
             }
@@ -54,9 +54,8 @@ const ReactSelect = (props) => {
             });
         }
 
-        console.log(options?.filter(option => baseSearch(option)))
-
         return options?.filter(option => baseSearch(option));
+
     }, [currentValue, hideSelected, labelValue, optionValue, options, searchQuery])
 
     useClickOutside(selectNode, () => {
@@ -217,7 +216,6 @@ const ReactSelect = (props) => {
             <div className="select__title" onClick={toggleSelect}>
                 <div className="select__title-content">
                     {multiply ? renderMultiplyValues() : renderSingleValue(currentValue, 0)}
-
                     {renderSelectSearch()}
                 </div>
                 <div className="select__actions">
