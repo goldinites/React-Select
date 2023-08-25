@@ -32,7 +32,9 @@ const RSelect = (props) => {
     const [searchQuery, setSearchQuery] = useState('');
 
     let [isOpen, toggleOpen] = useState(false);
+
     const selectNode = useRef()
+
     useClickOutside(selectNode, () => {
         toggleOpen(false);
     })
