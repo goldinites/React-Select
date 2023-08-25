@@ -5,8 +5,7 @@
   border: none;
   box-sizing: border-box;
   list-style: none;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 200;
+  font-family: sans-serif;
 }
 
 .app {
@@ -24,7 +23,9 @@
   position: relative;
 
   &__wrapper {
-    margin: 25px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   &__title {
@@ -32,12 +33,24 @@
     padding: 15px;
     border: 1px solid #333333;
     border-radius: 12px;
+    transition: 0.3s;
 
     &-content {
       display: flex;
       flex-wrap: wrap;
       flex: 1;
       gap: 10px;
+    }
+
+    &-search {
+      flex: 1;
+
+      &-input {
+        display: block;
+        width: 100%;
+        background: transparent;
+        transition: 0.15s;
+      }
     }
 
     &-item {
@@ -67,6 +80,19 @@
     }
   }
 
+  &--disabled {
+    pointer-events: none;
+
+    & * {
+      border-color: rgba(0, 0, 0, 0.3);
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    & #{$select}__title {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+  }
+
   &__list {
     position: absolute;
     left: 0;
@@ -80,6 +106,8 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+    animation: showOptionsList 0.15s linear;
+    transform-origin: top;
 
     &::-webkit-scrollbar {
       width: 2px;
@@ -93,7 +121,7 @@
       border-radius: 2px;
     }
 
-    scrollbar-color: #333333 #999999;
+    scrollbar-color: #444444 #999999;
     scrollbar-width: thin;
   }
 
@@ -102,5 +130,16 @@
       color: blue;
       cursor: pointer;
     }
+  }
+}
+
+@keyframes showOptionsList {
+  0% {
+    opacity: 0;
+    transform: scale(1, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1, 1);
   }
 }

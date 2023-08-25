@@ -1,28 +1,13 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './styles/styles.scss';
 import RSelect from './RSelect';
+import countries from './api';
 
 const App = () => {
-    const BASE_URL = 'https://countriesnow.space/api/v0.1/countries'
-
-    let getCountries = async () => {
-        const response = await fetch(`${BASE_URL}`).then(response => response.json())
-        const {data} = response;
-
-        return data;
-    }
-
-    const [countries, setCountries] = useState([]);
-
-    getCountries()
-        .then(response => {
-            setCountries(response)
-        });
-
     const [currentOption, setOptionSort] = useState({})
 
-    const setOptionHandler = (sort) => {
-        setOptionSort(sort)
+    const setOptionHandler = (option) => {
+        setOptionSort(option)
     }
 
     return (
@@ -30,13 +15,14 @@ const App = () => {
             <div className="container">
                 <RSelect
                     selectLabel="Choice country"
-                    searchable={false}
+                    searchable={true}
                     multiply={false}
                     hideSelected={true}
                     initialValue={currentOption}
+                    showDropdownArrow={true}
                     options={countries}
-                    labelValue="country"
-                    optionValue="iso2"
+                    labelValue="name"
+                    optionValue="code"
                     setOption={(sort) => setOptionHandler(sort)}
                 />
             </div>
