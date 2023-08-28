@@ -13,6 +13,7 @@ const ReactSelect = (props) => {
         selectLabel,
         showDropdownArrow,
         setOption,
+        children
     } = props;
 
     const preparedInitialValue = () => {
@@ -177,7 +178,8 @@ const ReactSelect = (props) => {
                             onClick={(e) => deleteValue(e, value[optionValue])}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
-                                <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
+                                <path
+                                    d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
                             </svg>
                         </span>
                     </span>
@@ -205,7 +207,8 @@ const ReactSelect = (props) => {
                         onClick={(e) => deleteValue(e, null, true)}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
-                            <path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
+                            <path
+                                d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/>
                         </svg>
                     </div>
                 )
@@ -226,6 +229,16 @@ const ReactSelect = (props) => {
         )
     }
 
+    const renderSlot = () => {
+        if (children) {
+            return (
+                <div className="select__slot">
+                    {children}
+                </div>
+            )
+        }
+    }
+
     const selectClass = () => {
         const selectOpen = isOpen ? 'select--open' : '';
         const selectDisabled = !options.length ? 'select--disabled' : '';
@@ -240,6 +253,7 @@ const ReactSelect = (props) => {
                 {renderSelectTitle()}
                 {renderOptionsList()}
             </div>
+            {renderSlot()}
         </div>
     );
 };

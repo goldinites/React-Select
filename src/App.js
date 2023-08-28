@@ -4,7 +4,50 @@ import ReactSelect from './ReactSelect';
 import countries from './api';
 
 const App = () => {
-    const initialValue = countries.find(country => country.name === 'Greece');
+    const initialValue = countries.filter(country => {
+        const myCountries = [
+            'Austria',
+            'Belgium',
+            'Brazil',
+            'Chile',
+            'Czech Republic',
+            'Denmark',
+            'Egypt',
+            'Faroe Islands',
+            'Finland',
+            'France',
+            'Georgia',
+            'Germany',
+            'Greece',
+            'Ireland',
+            'Iceland',
+            'Maldives',
+            'Portugal',
+            'Israel',
+            'Italy',
+            'Japan',
+            'Mexico',
+            'Monaco',
+            'Netherlands',
+            'New Zealand',
+            'Norway',
+            'Philippines',
+            'Spain',
+            'Sweden',
+            'Switzerland',
+            'Thailand',
+            'United Arab Emirates',
+            'United Kingdom',
+            'United States',
+            'PortugalMaldives',
+            'Luxembourg',
+            'Liechtenstein',
+            'Canada',
+            'Australia',
+            'Argentina'
+        ];
+        return myCountries.includes(country.name);
+    });
 
     const [currentOption, setOptionSort] = useState(initialValue)
 
